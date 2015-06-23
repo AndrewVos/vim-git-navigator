@@ -1,0 +1,28 @@
+*git-opener.txt*	Command mode plugin that has tab completion
+			for files in the current git repository.
+*git-opener*
+
+==============================================================================
+CONTENTS							*git-opener-contents*
+
+    1.Introduction............................|git-opener-intro|
+    2.Commands................................|git-opener-commands|
+
+==============================================================================
+
+INTRODUCTION							*git-opener-introduction*
+
+vim-git-opener is a command mode plugin that can fuzzy search files in your git
+repository.
+
+==============================================================================
+
+COMMANDS							*git-opener-commands*
+
+								*git-opener-:G*
+:G {path}		Allows tab completion for files with any changes in the
+			current git repository.
+:Z {path}		Allows tab completion for any files in the current git
+			repository.
+								*git-opener-:Z*
+vim:tw=78:sw=4:ft=help:norl:
