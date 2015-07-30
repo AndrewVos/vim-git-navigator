@@ -7,6 +7,7 @@ CONTENTS							*git-opener-contents*
 
     1.Introduction............................|git-opener-intro|
     2.Commands................................|git-opener-commands|
+    3.Mappings................................|git-opener-mappings|
 
 ==============================================================================
 
@@ -25,4 +26,12 @@ COMMANDS							*git-opener-commands*
 :Z {path}		Allows tab completion for any files in the current git
 			repository.
 								*git-opener-:Z*
+
+==============================================================================
+
+MAPPINGS							*git-opener-mappings*
+
+[g			Go to the previous modified file.
+]g			Go to the next modified file.
+
 vim:tw=78:sw=4:ft=help:norl:
