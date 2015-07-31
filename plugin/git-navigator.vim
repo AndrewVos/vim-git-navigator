@@ -8,9 +8,7 @@ if !empty(glob(".git"))
     endif
   endfunction
   command! -complete=customlist,GitLsFiles -nargs=1 Z :edit <args>
-endif
 
-if !empty(glob(".git"))
   function! GitChangedFiles()
     let gitCommand = "git status --untracked --porcelain | awk '{print ( $(NF) )}'"
     return split(system(gitCommand), "\n")

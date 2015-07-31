@@ -1,35 +1,35 @@
-*git-opener.txt*	Command mode plugin that has tab completion
+*git-navigator.txt*	Command mode plugin that has tab completion
 			for files in the current git repository.
-*git-opener*
+*git-navigator*
 
 ==============================================================================
-CONTENTS							*git-opener-contents*
+CONTENTS							*git-navigator-contents*
 
-    1.Introduction............................|git-opener-intro|
-    2.Commands................................|git-opener-commands|
-    3.Mappings................................|git-opener-mappings|
+    1.Introduction............................|git-navigator-intro|
+    2.Commands................................|git-navigator-commands|
+    3.Mappings................................|git-navigator-mappings|
 
 ==============================================================================
 
-INTRODUCTION							*git-opener-introduction*
+INTRODUCTION							*git-navigator-introduction*
 
-vim-git-opener is a command mode plugin that can fuzzy search files in your git
+vim-git-navigator is a command mode plugin that can fuzzy search files in your git
 repository.
 
 ==============================================================================
 
-COMMANDS							*git-opener-commands*
+COMMANDS							*git-navigator-commands*
 
-								*git-opener-:G*
+								*git-navigator-:G*
 :G {path}		Allows tab completion for files with any changes in the
 			current git repository.
 :Z {path}		Allows tab completion for any files in the current git
 			repository.
-								*git-opener-:Z*
+								*git-navigator-:Z*
 
 ==============================================================================
 
-MAPPINGS							*git-opener-mappings*
+MAPPINGS							*git-navigator-mappings*
 
 [g			Go to the previous modified file.
 ]g			Go to the next modified file.
