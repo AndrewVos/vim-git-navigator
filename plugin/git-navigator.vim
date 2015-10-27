@@ -1,4 +1,14 @@
 if !empty(glob(".git"))
+  function! GitFilesChangedOnCurrentBranch(A,L,P)
+    let pattern = a:A
+    if len(pattern) > 0
+      return split(system("git diff --name-only master... \| grep " . pattern), "\n")
+    else
+      return split(system("git diff --name-only master..."), "\n")
+    endif
+  endfunction
+  command! -complete=customlist,GitFilesChangedOnCurrentBranch -nargs=1 B :edit <args>
+
   function! GitLsFiles(A,L,P)
     let pattern = a:A
     if len(pattern) > 0

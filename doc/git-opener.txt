@@ -26,6 +26,9 @@ COMMANDS							*git-navigator-commands*
 :Z {path}		Allows tab completion for any files in the current git
 			repository.
 								*git-navigator-:Z*
+:B {path}		Allows tab completion for any files that were modified
+			in the current branch.
+								*git-navigator-:B*
 
 ==============================================================================
 
