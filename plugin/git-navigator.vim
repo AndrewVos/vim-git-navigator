@@ -12,9 +12,9 @@ if !empty(glob(".git"))
   function! GitLsFiles(A,L,P)
     let pattern = a:A
     if len(pattern) > 0
-      return split(system("git ls-files --cached --modified --others \| grep " . pattern), "\n")
+      return split(system("git ls-files --cached --modified \| grep " . pattern), "\n")
     else
-      return split(system("git ls-files --cached --modified --others"), "\n")
+      return split(system("git ls-files --cached --modified"), "\n")
     endif
   endfunction
   command! -complete=customlist,GitLsFiles -nargs=1 Z :edit <args>
