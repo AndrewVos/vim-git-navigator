@@ -20,7 +20,7 @@ if !empty(glob(".git"))
   command! -complete=customlist,GitLsFiles -nargs=1 Z :edit <args>
 
   function! GitChangedFiles()
-    let gitCommand = "git status --untracked --porcelain | awk '{print ( $(NF) )}'"
+    let gitCommand = "git status --untracked --porcelain | grep -v '^ D ' | awk '{print ( $(NF) )}'"
     return split(system(gitCommand), "\n")
   endfunction
 
