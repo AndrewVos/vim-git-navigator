@@ -2,7 +2,7 @@ if !empty(glob(".git"))
   function! GitFilesChangedOnCurrentBranch(A,L,P)
     let pattern = a:A
     if len(pattern) > 0
-      return split(system("git diff --name-only --diff-filter AM master... \| grep " . pattern), "\n")
+      return split(system("git diff --name-only --diff-filter AM master... \| grep --ignore-case " . pattern), "\n")
     else
       return split(system("git diff --name-only --diff-filter AM master..."), "\n")
     endif
@@ -12,7 +12,7 @@ if !empty(glob(".git"))
   function! GitLsFiles(A,L,P)
     let pattern = a:A
     if len(pattern) > 0
-      return split(system("git ls-files --cached --modified \| grep " . pattern), "\n")
+      return split(system("git ls-files --cached --modified \| grep --ignore-case " . pattern), "\n")
     else
       return split(system("git ls-files --cached --modified"), "\n")
     endif
