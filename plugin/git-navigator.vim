@@ -23,38 +23,41 @@ if !empty(glob(".git"))
   endfunction
   command! -complete=customlist,GitLsFiles -nargs=1 Z :edit <args>
 
-  function! GitGotoModifiedFile(previousOrNext)
+  function! GitNextModifiedFile()
     let files = s:grepCommand('', s:modifiedFilesCommand)
-    let index = index(files, @%)
+    let currentIndex = index(files, @%)
 
-    if index == -1
+    if currentIndex == -1
       return
     endif
 
-    if a:previousOrNext == "previous"
-      let index = index - 1
-    elseif a:previousOrNext == "next"
-      let index = index + 1
-    endif
+    let index = currentIndex + 1
 
-    if index == -1
-      echo "there is no previous file"
-      return
-    elseif index == len(files)
+    if index == len(files)
       echo "there is no next file"
       return
     endif
 
     execute "edit " . get(files, index)
   endfunction
-
-  function! GitNextModifiedFile()
-    call GitGotoModifiedFile("next")
-  endfunction
   :nnoremap <silent> ]g :call GitNextModifiedFile()<cr>
 
   function! GitPreviousModifiedFile()
-    call GitGotoModifiedFile("previous")
+    let files = s:grepCommand('', s:modifiedFilesCommand)
+    let currentIndex = index(files, @%)
+
+    if currentIndex == -1
+      return
+    endif
+
+    let index = currentIndex - 1
+
+    if index == -1
+      echo "there is no previous file"
+      return
+    endif
+
+    execute "edit " . get(files, index)
   endfunction
   :nnoremap <silent> [g :call GitPreviousModifiedFile()<cr>
 
