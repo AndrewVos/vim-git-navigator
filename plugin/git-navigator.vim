@@ -1,31 +1,30 @@
 if !empty(glob(".git"))
+  let s:modifiedFilesCommand  = "git status --untracked --porcelain | grep -v '^ D ' | awk '{print ( $(NF) )}'"
+  let s:lsFilesCommand = "git ls-files --cached --modified \| sort \| uniq"
+  let s:filesChangedOnCurrentBranch  = "git diff --name-only --diff-filter AM master... "
+
+  function! s:grepCommand(pattern, command)
+    if len(a:pattern) > 0
+      return split(system(a:command . "\| grep --ignore-case " . a:pattern), "\n")
+    else
+      return split(system(a:command), "\n")
+    endif
+  endfunction
+
   function! GitFilesChangedOnCurrentBranch(A,L,P)
     let pattern = a:A
-    if len(pattern) > 0
-      return split(system("git diff --name-only --diff-filter AM master... \| grep --ignore-case " . pattern), "\n")
-    else
-      return split(system("git diff --name-only --diff-filter AM master..."), "\n")
-    endif
+    return s:grepCommand(pattern, s:filesChangedOnCurrentBranch)
   endfunction
   command! -complete=customlist,GitFilesChangedOnCurrentBranch -nargs=1 B :edit <args>
 
   function! GitLsFiles(A,L,P)
     let pattern = a:A
-    if len(pattern) > 0
-      return split(system("git ls-files --cached --modified \| grep --ignore-case " . pattern), "\n")
-    else
-      return split(system("git ls-files --cached --modified"), "\n")
-    endif
+    return s:grepCommand(pattern, s:lsFilesCommand)
   endfunction
   command! -complete=customlist,GitLsFiles -nargs=1 Z :edit <args>
 
-  function! GitChangedFiles()
-    let gitCommand = "git status --untracked --porcelain | grep -v '^ D ' | awk '{print ( $(NF) )}'"
-    return split(system(gitCommand), "\n")
-  endfunction
-
   function! GitGotoModifiedFile(previousOrNext)
-    let files = GitChangedFiles()
+    let files = s:grepCommand('', s:modifiedFilesCommand)
     let index = index(files, @%)
 
     if index == -1
@@ -61,17 +60,7 @@ if !empty(glob(".git"))
 
   function! GitLsFilesModified(A,L,P)
     let pattern = a:A
-    let files = GitChangedFiles()
-    if len(pattern) > 0
-      let matched = []
-      for file in files
-        if file =~ pattern
-          call add(matched, file)
-        endif
-      endfor
-      return matched
-    end
-    return files
+    return s:grepCommand(pattern, s:modifiedFilesCommand)
   endfunction
   command! -complete=customlist,GitLsFilesModified -nargs=1 G :edit <args>
 endif
