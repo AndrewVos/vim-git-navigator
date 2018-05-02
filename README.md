@@ -10,3 +10,8 @@ All of these commands will open the file in vim when you press enter.
 
 - `[g` to go to the previous modified file
 - `]g` to go to the next modified file
+
+## Dependencies
+
+- [vim-haystack](https://github.com/tpope/vim-haystack)
+- A vim compiled with `+python`

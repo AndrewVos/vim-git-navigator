@@ -3,28 +3,34 @@ if !empty(glob(".git"))
   let s:lsFilesCommand = "git ls-files --cached --modified \| sort \| uniq"
   let s:filesChangedOnCurrentBranch  = "git diff --name-only --diff-filter AM master... "
 
-  function! s:grepCommand(pattern, command)
-    if len(a:pattern) > 0
-      return split(system(a:command . "\| grep --ignore-case " . a:pattern), "\n")
-    else
-      return split(system(a:command), "\n")
+  function! s:search(command, pattern)
+    if !exists('g:loaded_haystack')
+      return ["vim-haystack must be installed to do fuzzy matching"]
     endif
+
+    let files = split(system(a:command), "\n")
+
+    if len(a:pattern) > 0
+      return haystack#filter(files, a:pattern)
+    end
+
+    return files
   endfunction
 
   function! GitFilesChangedOnCurrentBranch(A,L,P)
     let pattern = a:A
-    return s:grepCommand(pattern, s:filesChangedOnCurrentBranch)
+    return s:search(s:filesChangedOnCurrentBranch, pattern)
   endfunction
   command! -complete=customlist,GitFilesChangedOnCurrentBranch -nargs=1 B :edit <args>
 
   function! GitLsFiles(A,L,P)
     let pattern = a:A
-    return s:grepCommand(pattern, s:lsFilesCommand)
+    return s:search(s:lsFilesCommand, pattern)
   endfunction
   command! -complete=customlist,GitLsFiles -nargs=1 Z :edit <args>
 
   function! GitNextModifiedFile()
-    let files = s:grepCommand('', s:modifiedFilesCommand)
+    let files = s:search(s:modifiedFilesCommand, pattern)
     let currentIndex = index(files, @%)
 
     if currentIndex == -1
@@ -43,7 +49,7 @@ if !empty(glob(".git"))
   :nnoremap <silent> ]g :call GitNextModifiedFile()<cr>
 
   function! GitPreviousModifiedFile()
-    let files = s:grepCommand('', s:modifiedFilesCommand)
+    let files = s:search(s:modifiedFilesCommand, '')
     let currentIndex = index(files, @%)
 
     if currentIndex == -1
@@ -63,7 +69,7 @@ if !empty(glob(".git"))
 
   function! GitLsFilesModified(A,L,P)
     let pattern = a:A
-    return s:grepCommand(pattern, s:modifiedFilesCommand)
+    return s:search(s:modifiedFilesCommand, pattern)
   endfunction
   command! -complete=customlist,GitLsFilesModified -nargs=1 G :edit <args>
 endif
