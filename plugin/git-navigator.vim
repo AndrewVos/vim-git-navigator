@@ -30,7 +30,7 @@ if !empty(glob(".git"))
   command! -complete=customlist,GitLsFiles -nargs=1 Z :edit <args>
 
   function! GitNextModifiedFile()
-    let files = s:search(s:modifiedFilesCommand, pattern)
+    let files = s:search(s:modifiedFilesCommand, '')
     let currentIndex = index(files, @%)
 
     if currentIndex == -1
